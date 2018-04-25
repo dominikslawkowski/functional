@@ -9,6 +9,17 @@
 
 */
 
+const groupBy = (arr, func) =>
+    arr.reduce((obj, elem) => {
+        const key = func(elem);
+        const groupedUnderThisKey = obj[key] || [];
+
+        return {
+            ...obj,
+            [key]: [...groupedUnderThisKey, elem],
+        };
+    });
+
 describe('problem1 - groupBy', () => {
     it('returns an object', () => {
         expect(groupBy([1, 2, 3], v => v)).toBeInstanceOf(Object);

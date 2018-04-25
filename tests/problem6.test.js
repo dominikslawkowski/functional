@@ -15,6 +15,31 @@
         }
 */
 
+class LazyPipe {
+    constructor(value, handlers) {
+        this._value = value;
+        this._handlers = handlers;
+    }
+
+    static startingWith(value) {
+        return new LazyPipe(value, []);
+    }
+
+    chain(func) {
+        return new LazyPipe(this._value, [...this._handlers, func]);
+    }
+
+    return() {
+        return this._handlers.reduce((result, handler) => {
+            if (result instanceof LazyPipe) {
+                return handler(result.return());
+            }
+
+            return handler(result);
+        }, this._value);
+    }
+}
+
 describe('problem6 - LazyPipe', () => {
     it('returns a wrapped value (an object)', () => {
         expect(LazyPipe.startingWith(2)).toBeInstanceOf(LazyPipe);

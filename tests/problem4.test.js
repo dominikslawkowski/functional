@@ -28,11 +28,12 @@
 
 const moment = require('moment');
 const toPairs = require('lodash.topairs');
+const compose = require('./problem2.test');
 
-const formatISODates = data =>
+const formatISODates = format => data =>
     data.map(entry => ({
         ...entry,
-        date: moment(entry.date).format('HH:mm'),
+        date: moment(entry.date).format(format),
     }));
 
 const normalizeData = data => {
@@ -58,7 +59,12 @@ const createDataset = hours =>
     );
 
 // Twoja implementacja poniżej
-const formatEntries = data => data;
+const formatEntries = compose(
+    normalizeData,
+    formatISODates('HH:mm'),
+    filterFullMinutes,
+    createDataset,
+);
 
 describe('problem4 - formatEntries', () => {
     it('formats entries correctly', () => {
@@ -80,12 +86,12 @@ describe('problem4 - formatEntries', () => {
             labels: [
                 firstMoment.format('HH:mm'),
                 firstMoment.add(1, 'minutes').format('HH:mm'),
-                firstMoment.add(3, 'minutes').format('HH:mm'),
-                firstMoment.add(14, 'minutes').format('HH:mm'),
-                firstMoment.add(27, 'minutes').format('HH:mm'),
-                firstMoment.add(29, 'minutes').format('HH:mm'),
+                firstMoment.add(2, 'minutes').format('HH:mm'),
+                firstMoment.add(11, 'minutes').format('HH:mm'),
+                firstMoment.add(13, 'minutes').format('HH:mm'),
+                firstMoment.add(2, 'minutes').format('HH:mm'),
             ],
-            data: [15, 13, 14, 0, 5, 22, 47, 48, 60, 68],
+            data: [14, 5, 22, 48, 60, 68],
         });
     });
 });

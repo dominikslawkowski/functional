@@ -28,6 +28,22 @@
 
 */
 
+const curry = func => {
+    const arity = func.length;
+
+    if (arity === 0) {
+        return func;
+    }
+
+    return param => {
+        if (arity === 1) {
+            return func(param);
+        }
+
+        return curry(func.bind(null, param));
+    };
+};
+
 describe('problem3 - curry', () => {
     it("returns the same func if it doesn't require any parameters", () => {
         const func = () => 'apple';

@@ -15,6 +15,11 @@
     greetButVeryLoud('John') // HELLO JOHN!!!!!!!!1111one
 */
 
+const compose = (...funcs) => param =>
+    funcs.reduce((result, func) => func(result), param);
+
+module.exports = compose;
+
 describe('problem2 - compose', () => {
     it('returns a function', () => {
         const func1 = pie => `Preparing ${pie}`;
